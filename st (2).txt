@@ -1,0 +1,211 @@
+create table hasta (
+hasta_id int primary key,
+ad varchar(20) not null,
+soyad varchar(20) not null,
+uyruk varchar(10) not null,
+dogum_tarihi date not null,
+cinsiyet varchar(1) not null,
+doktor_id INT, 
+araci_id int,
+tercuman_id INT, 
+tedavi_id INT,
+ucret_id INT,
+konaklama_id int,
+ulasim_id int,
+sonuc_id int,
+iletisim_id int,
+odeme_id int
+FOREIGN KEY (doktor_id) REFERENCES doktor(doktor_id), 
+FOREIGN KEY (tercuman_id) REFERENCES tercuman(tercuman_id), 
+FOREIGN KEY (tedavi_id) REFERENCES tedavi(tedavi_id),
+FOREIGN KEY (ucret_id) REFERENCES ucret(ucret_id),
+foreign key (araci_id) references araci(araci_id),
+foreign key (ulasim_id) references ulasim (ulasim_id),
+foreign key (konaklama_id) references konaklama(konaklama_id),
+foreign key (sonuc_id) references sonuc(sonuc_id),
+foreign key (iletisim_id) references iletisim(iletisim_id),
+foreign key (odeme_id) references odeme(odeme_id)
+);
+
+create table doktor (
+doktor_id int primary key,
+ad varchar(20) not null,
+soyad varchar(20) not null,
+uyruk varchar(10) not null,
+dogum_tarihi date not null,
+cinsiyet varchar(1) not null,
+ucret_id INT, 
+brans varchar(20),
+FOREIGN KEY (ucret_id) REFERENCES ucret(ucret_id) 
+);
+
+create table araci (
+araci_id int primary key,
+ad varchar(20) not null,
+soyad varchar(20) not null,
+uyruk varchar(10) not null,
+dogum_tarihi date not null,
+cinsiyet varchar(1) not null,
+ucret_id INT, 
+FOREIGN KEY (ucret_id) REFERENCES ucret(ucret_id) 
+);
+
+create table tercuman (
+tercuman_id int primary key,
+ad varchar(20) not null,
+soyad varchar(20) not null,
+uyruk varchar(10) not null,
+dogum_tarihi date not null,
+cinsiyet varchar(1) not null,
+bilinen_diller varchar(20),
+ucret_id INT, 
+FOREIGN KEY (ucret_id) REFERENCES ucret(ucret_id) 
+);
+
+create table ucret(
+ucret_id int primary key,
+ucret int not null
+);
+
+
+create table tedavi(
+tedavi_id int primary key,
+tedavi_adi varchar(20) not null,
+ucret_id INT, 
+FOREIGN KEY (ucret_id) REFERENCES ucret(ucret_id) 
+);
+
+CREATE TABLE konaklama (
+konaklama_id INT PRIMARY KEY, 
+konaklama_turu VARCHAR(50) NOT NULL, 
+ucret_id INT, -- Ücret tablosuna referans
+FOREIGN KEY (ucret_id) REFERENCES ucret(ucret_id) 
+);
+
+CREATE TABLE ulasim(
+ulasim_id INT PRIMARY KEY, 
+ulasim_turu VARCHAR(50) NOT NULL, 
+ucret_id INT, 
+FOREIGN KEY (ucret_id) REFERENCES ucret(ucret_id) 
+);
+
+CREATE TABLE sonuc (
+    sonuc_id INT NOT NULL PRIMARY KEY, 
+    tahliller VARCHAR(255) NOT NULL, 
+    oncesi TEXT,                  
+    sonrasi TEXT                    
+);
+
+CREATE TABLE iletisim (
+    iletisim_id INT  PRIMARY KEY, 
+    iletisim_turu VARCHAR(25)     
+             
+);
+
+CREATE TABLE odeme (
+    odeme_id INT PRIMARY KEY,
+    odeme_turu char(20)
+);
+
+INSERT INTO hasta (hasta_id, ad, soyad, uyruk, dogum_tarihi, cinsiyet, doktor_id, araci_id, tercuman_id, tedavi_id, ucret_id, konaklama_id, ulasim_id,sonuc_id,iletisim_id,odeme_id) VALUES
+(1, 'Ali', 'Yıldız', 'Türk', '1990-04-15', 'E', 7, 2, 1, 7, 7, 1, 2,7,2,1),
+(2, 'Fatma', 'Demir', 'Alman', '1985-08-20', 'K', 5, 2, 2, 5, 5, 2, 3,5,3,1),
+(3, 'John', 'Smith', 'İngiliz', '1978-12-05', 'E', 8, 1, 3, 8, 8, 2, 3,8,2,2),
+(4, 'Elena', 'Ivanova', 'Rus', '1992-06-08', 'K', 4, 3, 4, 4, 4, 1, 1,4,1,1),
+(5, 'Carlos', 'Garcia', 'İspanyol', '1981-11-11', 'E', 8, 1, 5, 8,8, 1, 2,8,3,2),
+(6, 'Aisha', 'Khan', 'Pakistanlı', '1995-03-19', 'K', 6, 3, 6, 6, 6, 2, 1,6,1,2),
+(7, 'Liam', 'Connor', 'İrlandalı', '1987-07-14', 'E', 2, 2, 7, 2, 2, 2, 1,2,1,1),
+(8, 'Mei', 'Ling', 'Çinli', '1990-09-25', 'K', 7, 1, 8, 7, 7, 1, 3,7,2,2),
+(9, 'Anna', 'Müller', 'Alman', '1983-05-10', 'K', 3, 2, 9, 3, 3, 1, 2,3,1,2),
+(10, 'Omar', 'Abdullah', 'Mısırlı', '1989-01-30', 'E', 1, 3, 10, 1, 1, 2, 1,1,3,2);
+
+INSERT INTO doktor (doktor_id, ad, soyad, uyruk, dogum_tarihi, cinsiyet, ucret_id, brans) VALUES
+(1, 'Ahmet', 'Yılmaz', 'Türk', '1980-05-15', 'E', 1, 'Kardiyoloji'),
+(2, 'Ayşe', 'Demir', 'Türk', '1985-08-20', 'K', 2, 'Nöroloji'),
+(3, 'Mehmet', 'Kaya', 'Türk', '1978-09-12', 'E', 3, 'Ortopedi'),
+(4, 'Elif', 'Arslan', 'Türk', '1992-06-08', 'K', 4, 'Dermatoloji'),
+(5, 'Fatih', 'Çelik', 'Türk', '1981-12-25', 'E', 5, 'Genel Cerrahi'),
+(6, 'Münir', 'Kıyıcı', 'Türk', '1992-06-08', 'E', 6, 'Diş Hekimi'),	
+(7, 'Yaren', 'Kıyıcı', 'Türk', '1981-12-25', 'K', 7, 'Estetik Cerrahi'),
+(8, 'Emine', 'Çiçek', 'Türk', '1984-09-18', 'K', 8, 'Göz Hastalıkları');
+
+INSERT INTO tedavi (tedavi_id, tedavi_adı, ucret_id) VALUES
+(1, 'Kalp Ameliyatı', 1), -- Kardiyoloji
+(2, 'EEG Çekimi', 2),     -- Nöroloji
+(3, 'Diz Protezi', 3),    -- Ortopedi
+(4, 'Cilt Tedavisi', 4),  -- Dermatoloji
+(5, 'Apandisit Ameliyatı', 5), -- Genel Cerrahi
+(6, 'Diş protezi', 6), -- Diş hekimi
+(7, 'Saç Ekimi', 7), -- Plastik Cerrahi
+(8, 'Burun Estetiği', 7), -- plastik Cerrahi
+(9, 'Lazer operasyonu', 8), -- Göz Doktoru
+(10, 'Katarakt Ameliyatı', 8);--göz doktoru
+
+INSERT INTO tercuman (tercuman_id, ad, soyad, uyruk, dogum_tarihi, cinsiyet, bilinen_diller, ucret_id) VALUES
+(1, 'Ahmet', 'Karadağ', 'Türk', '1987-05-10', 'E', 'İngilizce, Almanca', 9),
+(2, 'Ayşe', 'Yıldırım', 'Türk', '1993-04-25', 'K', 'Fransızca, Almanca', 9),
+(3, 'Emily', 'Clark', 'İngiliz', '1985-12-14', 'K', 'Türkçe, İngilizce', 9),
+(4, 'Sergei', 'Ivanov', 'Rus', '1990-07-20', 'E', 'Türkçe, Rusça', 9),
+(5, 'Carlos', 'Fernandez', 'İspanyol', '1992-01-30', 'E', 'Türkçe, İspanyolca', 9),
+(6, 'Amina', 'Ahmed', 'Pakistanlı', '1995-06-15', 'K', 'Türkçe, Urduca', 9),
+(7, 'Eoin', 'Murphy', 'İrlandalı', '1988-08-19', 'E', 'Türkçe, İngilizce', 9),
+(8, 'Liu', 'Huang', 'Çinli', '1991-03-22', 'K', 'Türkçe, Çince', 9),
+(9, 'Hanna', 'Kohl', 'Alman', '1986-09-10', 'K', 'Türkçe, İngilizce', 9),
+(10, 'Ali', 'Hassan', 'Mısırlı', '1989-11-28', 'E', 'Türkçe, Arapça', 9);
+
+
+INSERT INTO araci (araci_id, ad, soyad, uyruk, dogum_tarihi, cinsiyet, ucret_id) VALUES
+(1, 'Murat', 'Koç', 'Türk', '1980-03-12', 'E', 10),
+(2, 'Leyla', 'Akın', 'Türk', '1992-07-25', 'K', 10),
+(3, 'Ali', 'Özkan', 'Türk', '1985-11-05', 'E', 10);
+
+insert into konaklama (konaklama_id,konaklama_turu,ucret_id) values
+(1,'Otel',11),
+(2,'Ev',12);
+
+insert into ulasim values
+(1,'Otobus',13),
+(2,'Ucak',14),
+(3,'Ozel Araç',15);
+
+
+insert into ucret (ucret_id,ucret) values
+(1,100000),--kardiyoloji
+(2,125000),--nöroloji
+(3,80000),--ortapedi
+(4,20000),--dermatoloji
+(5,45000),--genel cerrahi
+(6,90000),--dishekimi	
+(7,150000),--estetik
+(8,100000),--goz hastalıkları
+(9,40000),--tercuman
+(10,25000),--araci
+(11,50000),--otel
+(12,30000),--ev
+(13,50000),--otobus
+(14,100000),--ucak
+(15,150000);--araç
+
+INSERT INTO iletisim (iletisim_id, iletisim_turu)
+VALUES 
+(1, 'mail'),
+(2, 'fax'),
+(3, 'telefon');
+
+
+INSERT INTO sonuc (sonuc_id, tahliller, oncesi, sonrasi)
+VALUES
+(1, 'Kan Testi, EKG', 'Göğüs ağrısı ve yorgunluk', 'Başarılı bir kalp ameliyatı sonrası normal EKG sonuçları'),
+(2, 'EEG', 'Nöbet ve baş ağrısı', 'EEG sonuçları normal, nöbet riski azaldı'),
+(3, 'MR, Kan Testi', 'Diz ağrısı ve hareket kısıtlılığı', 'Diz protezi sonrası hareket kabiliyeti arttı'),
+(4, 'Cilt Biyopsisi', 'Cilt lekeleri ve kaşıntı', 'Lazer tedavisi sonrası temiz cilt görünümü'),
+(5, 'Kan Testi, Ultrason', 'Karın ağrısı ve şişkinlik', 'Apandisit alındı, hasta normal beslenmeye başladı'),
+(6, 'Panoramik Röntgen', 'Diş kaybı ve çiğneme zorluğu', 'Diş protezi yerleştirildi, çiğneme normalleşti'),
+(7, 'Kıl Kökü Analizi', 'Saç dökülmesi', 'Saç ekimi sonrası yoğun saç görünümü'),
+(8, '3D Burun Analizi', 'Burun şekil bozukluğu', 'Estetik operasyon sonrası hastanın beklentileri karşılandı'),
+(9, 'Görme Testi, Topografi', 'Bulanık görme', 'Lazer operasyonu sonrası görme keskinliği arttı'),
+(10, 'Görme Testi, Ultrason', 'Bulanık görme ve ışık hassasiyeti', 'Katarakt alındı, hasta normal görme yetisine kavuştu');
+
+INSERT INTO ödeme (odeme_id, odeme_turu) VALUES
+(1, 'nakit'),
+(2, 'kredi kartı');
